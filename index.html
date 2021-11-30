@@ -1,0 +1,97 @@
+<head>
+  <script
+    async
+    src="https://cdn.ampproject.org/amp-story-player-v0.js"
+    onload="initializePlayer()"
+  ></script>
+  <link
+    href="https://cdn.ampproject.org/amp-story-player-v0.css"
+    rel="stylesheet"
+    type="text/css"
+  />
+  <script>
+    // JS
+    let player;
+
+    function events() {
+      console.log(
+        "iframes",
+        document
+          .querySelector("amp-story-player")
+          .shadowRoot.querySelectorAll("iframe")
+      );
+
+      player.addEventListener("storyEnd", (data) =>
+        console.log("storyEnd", data)
+      );
+
+      player.addEventListener("amp-story-player-close", () => {
+        console.log("Close button clicked");
+      });
+    }
+
+    function initializePlayer() {
+      player = window.document.querySelector("amp-story-player");
+      if (player.isReady) {
+        // Player loaded. Run e.g. animation.
+        console.log("isready");
+        events();
+        return;
+      }
+
+      player.addEventListener("ready", () => {
+        // Player loaded. Run e.g. animation.
+        console.log("ready");
+        events();
+      });
+    }
+
+    function show(story) {
+      player.show(story);
+    }
+
+    function nextStory() {
+      player.go(1);
+    }
+  </script>
+</head>
+<body>
+  <button onclick="nextStory()">Next story</button>
+  <button onclick="player.pause()">Pause story</button>
+  <button onclick="player.play()">Play story</button>
+  <button
+    onclick="console.log(
+        'iframes',
+        document.querySelectorAll('amp-story-player iframe')
+      );"
+  >
+    add story
+  </button>
+
+  <button
+    onclick="show('https://merci-handy.my.join-stories.com/collection-la-bouche-avis-kQoT9uov/',false)"
+  >
+    First story
+  </button>
+  <button
+    onclick="show('https://webstoriesinteractivity-beta.web.app/arts-quizzes.html',false)"
+  >
+    Second story
+  </button>
+  <button onclick="show('e.com/third')">Third story</button>
+
+  <amp-story-player
+    style="width: 100%; height: 800px;"
+    onTouchStart_="console.log('touchStart')"
+    exit-control="close-button"
+  >
+    <a
+      href="https://merci-handy.my.join-stories.com/collection-la-bouche-avis-kQoT9uov/"
+    >
+      Merci Handy
+    </a>
+    <a href="https://webstoriesinteractivity-beta.web.app/arts-quizzes.html">
+      Quizz
+    </a>
+  </amp-story-player>
+</body>
